@@ -96,6 +96,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 16px 20px 30px; }
 .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
 .tag { font-size: 11px; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 2px 7px; }
 .tag.miss { color: var(--danger); border-color: var(--danger); font-weight: 700; }
+.tag.done { color: var(--teal); border-color: var(--teal); }
 .tag.hid { color: var(--orange); border-color: var(--orange); }
 .masked h3, .masked .desc { color: var(--muted); font-style: italic; }
 .empty { color: var(--muted); font-size: 15px; padding: 22px 4px; }

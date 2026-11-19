@@ -173,7 +173,7 @@ function renderRoadmap() {
     div.className = 'phase';
     const names = p.ids.map((id) => {
       const t = byId.get(id);
-      return `<span class="tag">${t.name}</span>`;
+      return `<span class="tag${earned.has(id) ? ' done' : ''}">${earned.has(id) ? '✓ ' : ''}${t.name}</span>`;
     }).join('');
     div.innerHTML = `<h3><span class="pnum">Phase ${i + 1}</span>${p.title}</h3><p>${p.body}</p><div class="names">${names}</div>`;
     wrap.append(div);
