@@ -38,9 +38,13 @@ for (const t of list) {
   seen.add(t.name);
   if (typeof t.guide !== 'string' || t.guide.trim() === '') throw new Error(`trophy ${t.id} (${t.name}): guide is blank`);
   if (!Array.isArray(t.sources) || t.sources.length === 0) throw new Error(`trophy ${t.id} (${t.name}): no sources cited`);
+  for (const s of t.sources) {
+    if (typeof s.url !== 'string' || s.url.trim() === '') throw new Error(`trophy ${t.id} (${t.name}): a cited source has no URL`);
+  }
 }
 const hiddenCount = list.filter((t) => t.hidden).length;
 const missableCount = list.filter((t) => t.missable).length;
+if (hiddenCount !== 28) throw new Error(`trophies.json must flag exactly 28 hidden trophies, found ${hiddenCount}`);
 
 mkdirSync(out, { recursive: true });
 cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });

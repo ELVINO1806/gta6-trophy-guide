@@ -273,7 +273,7 @@ $('importFile').addEventListener('change', async (e) => {
   if (!file) return;
   try {
     const parsed = JSON.parse(await file.text());
-    const ids = Array.isArray(parsed) ? parsed : parsed.earned;
+    const ids = Array.isArray(parsed) ? parsed : (parsed !== null && typeof parsed === 'object' ? parsed.earned : null);
     if (!Array.isArray(ids)) throw new Error('bad file');
     earned = new Set(ids.filter((id) => byId.has(id)));
     if (typeof parsed.spoiler === 'boolean') { spoiler = parsed.spoiler; $('spoilerToggle').checked = spoiler; }
