@@ -14,13 +14,33 @@
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-frontend.ts';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
 const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+
+// Validation pass: the guide is only worth handing in if its data file is whole.
+// The official list is exactly 55 trophies; every one needs a non-blank guide of
+// our own and a source list, and the names must be unique. Fail loudly here, at
+// hand-in time, rather than letting a broken data file reach the scorer.
+const data = JSON.parse(readFileSync(join(here, 'app', 'data', 'trophies.json'), 'utf8'));
+const list = data.trophies;
+if (!Array.isArray(list) || list.length !== 55) {
+  throw new Error(`trophies.json must list exactly 55 trophies, found ${Array.isArray(list) ? list.length : 'none'}`);
+}
+const seen = new Set();
+for (const t of list) {
+  if (typeof t.name !== 'string' || t.name.trim() === '') throw new Error(`trophy ${t.id}: missing name`);
+  if (seen.has(t.name)) throw new Error(`trophy ${t.id}: duplicate name "${t.name}"`);
+  seen.add(t.name);
+  if (typeof t.guide !== 'string' || t.guide.trim() === '') throw new Error(`trophy ${t.id} (${t.name}): guide is blank`);
+  if (!Array.isArray(t.sources) || t.sources.length === 0) throw new Error(`trophy ${t.id} (${t.name}): no sources cited`);
+}
+const hiddenCount = list.filter((t) => t.hidden).length;
+const missableCount = list.filter((t) => t.missable).length;
 
 mkdirSync(out, { recursive: true });
 cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });
@@ -34,3 +54,6 @@ writeFileSync(
   join(out, 'dossier.json'),
   buildDossier(out, { text_max_bytes: 163840, screenshots: { max: 4, max_bytes: 262144 }, app_max_files: 993, app_max_bytes: 50331648 }),
 );
+
+const shotCount = existsSync(join(here, 'screenshots')) ? readdirSync(join(here, 'screenshots')).length : 0;
+console.log(`gta6-trophy-guide-01: validated ${list.length} trophies (${hiddenCount} hidden, ${missableCount} missable), copied app/ and ${shotCount} screenshot(s), wrote dossier.json`);
