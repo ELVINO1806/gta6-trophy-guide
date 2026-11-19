@@ -3,23 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Trophy Ledger — GTA VI Trophy Guide &amp; Tracker</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="masthead">
+  <div class="mast-inner">
+    <div class="mast-titles">
+      <p class="kicker">Grand Theft Auto VI · PlayStation 5 · Offline guide &amp; tracker</p>
+      <h1>Leonida Trophy Ledger</h1>
+      <p class="sub">All 55 official trophies with a cited guide for every one, a platinum roadmap, missable warnings and a progress tracker that saves on this device.</p>
+    </div>
+    <div class="mast-progress">
+      <div class="big-count"><span id="earnedCount">0</span><span class="of">/ 55 earned</span></div>
+      <div class="bar" role="progressbar" aria-label="Trophies earned"><div id="barFill"></div></div>
+      <p id="gradeLine" class="grade-line">Platinum 0/1 · Gold 0/2 · Silver 0/6 · Bronze 0/46</p>
+      <p id="pctLine" class="pct-line">0% of the list</p>
+    </div>
+  </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<nav class="toolbar" aria-label="Tracker controls">
+  <div class="tabs" role="tablist">
+    <button id="tabChecklist" class="tab active" type="button">Checklist</button>
+    <button id="tabRoadmap" class="tab" type="button">Platinum roadmap</button>
+  </div>
+  <div class="chips" id="kindChips" role="group" aria-label="Filter by kind">
+    <button class="chip active" data-kind="all" type="button">All</button>
+    <button class="chip" data-kind="story" type="button">Story</button>
+    <button class="chip" data-kind="missable" type="button">Missable</button>
+    <button class="chip" data-kind="collectibles" type="button">Collectibles</button>
+    <button class="chip" data-kind="activities" type="button">Activities</button>
+    <button class="chip" data-kind="online" type="button">Online</button>
+  </div>
+  <label class="ctl">Grade
+    <select id="gradeFilter">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label class="ctl grow">Search <input id="searchBox" type="search" placeholder="mission, activity, name…"></label>
+  <label class="ctl switch"><input id="spoilerToggle" type="checkbox" checked> Spoiler protection</label>
+  <button id="exportBtn" class="act" type="button">Export progress</button>
+  <label class="act file-act">Import progress <input id="importFile" type="file" accept="application/json,.json" hidden></label>
+</nav>
+
+<main>
+  <section id="checklistView">
+    <p id="resultLine" class="result-line"></p>
+    <div id="cards" class="cards"></div>
+    <p id="emptyLine" class="empty" hidden></p>
+  </section>
+
+  <section id="roadmapView" hidden>
+    <h2>Platinum roadmap — the order that wastes nothing</h2>
+    <p class="road-intro">Built from the official trophy descriptions and the launch guides cited in this app. Two rules shape the whole route: GTA VI has <strong>no mission replay</strong>, so a manual save at the start of every chapter is your only insurance (the game gives you 15 manual save slots), and <strong>cheats switch trophies and saving off</strong> for the session — keep them off on a trophy run.</p>
+    <div id="phases"></div>
+    <h2 class="miss-head">Missables — read before you play</h2>
+    <div id="missables"></div>
+  </section>
+</main>
+
+<aside id="detail" class="detail" hidden aria-label="Trophy guide">
+  <button id="detailClose" class="detail-close" type="button" aria-label="Close guide">×</button>
+  <div id="detailBody"></div>
+</aside>
+<div id="scrim" class="scrim" hidden></div>
+
+<footer>
+  <p>Trophy names, descriptions and grades are the official PlayStation list for Grand Theft Auto VI (55 trophies, published 18 November 2026). Hidden flags follow the published list: 28 hidden, 27 visible. Guides are original text written for this tracker; every guide names its sources. List data: Exophase and PSNProfiles (cross-checked via PlanetGTA6), EGamers, Output Lag, GTABase, Vice City Hub and WikiGTAVI. This is a fan-made tool, not affiliated with Rockstar Games. It works fully offline and stores progress only in your browser.</p>
+</footer>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
