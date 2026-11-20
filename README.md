@@ -1,31 +1,41 @@
+
 # Leonida Trophy Ledger — GTA VI Trophy Guide & Tracker
 
-[![Competition](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
-[![Rank](https://make.fun/badge/gta6-trophy-guide-01/ELVINO1806/gta6-trophy-guide/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
-[![Reward](https://make.fun/badge/gta6-trophy-guide-01/ELVINO1806/gta6-trophy-guide/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
+[![make.fun · gta6-trophy-guide-01](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
+[![rank](https://make.fun/badge/gta6-trophy-guide-01/ELVINO1806/gta6-trophy-guide/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard)
+[![reward](https://make.fun/badge/gta6-trophy-guide-01/ELVINO1806/gta6-trophy-guide/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
 
-An offline trophy guide and progress tracker for **Grand Theft Auto VI (PlayStation 5)**, built for the make.fun bounty [gta6-trophy-guide-01](https://make.fun/bounty/gta6-trophy-guide-01). Open `app/index.html` (or serve `app/` with `node serve.ts`) — no build step, no network, no accounts.
+An offline guide and tracker for all 55 PlayStation 5 trophies of Grand Theft Auto VI, built for the [make.fun gta6-trophy-guide-01 bounty](https://make.fun/bounty/gta6-trophy-guide-01).
 
-## What it does
+## What it is
 
-- **All 55 official trophies** with their exact PlayStation name, description and grade (1 platinum, 2 gold, 6 silver, 46 bronze), including the 28 hidden trophies.
-- **A cited guide for every trophy** — original text covering what it asks, when it comes in the story flow or what count it tracks, the practical way to earn it, and the miss risk where one exists. Each guide names its sources beside it.
-- **Progress tracker** — tick trophies off, watch the earned count, percentage and per-grade totals update; progress saves in the browser, and **Export / Import** moves it between devices as a JSON file.
-- **Filters that match how you hunt** — Story, Missable, Collectibles, Activities and Online (the list is entirely single-player, and the app says so), plus a grade filter and text search.
-- **Spoiler protection** — on by default, it masks unearned story and hidden trophies ("Hidden — story trophy") until you earn them; earned ones reveal.
-- **Platinum roadmap** — six phases built from the official descriptions: story first with chapter-save discipline, stranger strands, collections, activity grinds, money and robberies, then 100% completion and the platinum.
-- **Missables section** — the one trophy launch guides flag as possibly missable (*Positive Mental Attitude*, via its Chapter 1 meditation spot) with exactly when it can be lost, plus the no-mission-replay and cheats warnings that protect the whole run.
+- **All 55 trophies** with their official names, descriptions and grades exactly as PlayStation publishes them: 1 platinum, 2 gold, 6 silver, 46 bronze, 28 of them hidden until earned.
+- **An original guide for every trophy**, written for this entry, with the source of each fact named beside it: 111 source citations across 9 sources (Exophase, PSNProfiles, EGamers, GTABase, PowerPyx, Boosting Factory, HowToVideoGame, Beebom, TechWiser). No guide text is copied from any source.
+- **A tracker**: check trophies off as you earn them; progress saves in the browser, exports to a file and imports back. Count trackers for the 21 trophies PlayStation tracks with a count (250 stunts, 42 shooting-range golds, 100 WAiNK spots and the rest).
+- **Filters** by story, missable, collectibles, activities, combat, money, hidden, earned and remaining, plus search. There are no online trophies in this list — all 55 are offline, single-player — and the app says so instead of pretending otherwise.
+- **A spoiler setting** that hides the names and descriptions of story trophies until they are earned.
+- **A 7-stage platinum roadmap** built from the official descriptions, and a **missables page** flagging the one trophy reported as possibly missable (Positive Mental Attitude, 18 meditation spots tied to Chapter 1) plus the stranger chains whose windows close with story progress.
+- **Fully offline**: static files under `app/`, no network requests at runtime, original artwork and layout only.
 
-## Data & sources
+## Run it
 
-Names, descriptions and grades are the official list published 18 November 2026. Hidden flags (28 hidden / 27 visible) follow the published list as carried by **Exophase** and cross-checked with **PSNProfiles** (via PlanetGTA6's full table). Tracked counts come from the official descriptions. Missable and timing details are cited per trophy from EGamers, Output Lag, GTABase, Vice City Hub and WikiGTAVI. Where launch guides disagreed or a trigger was unconfirmed, the guide says so instead of inventing steps.
+Serve `app/` with any static HTTP server and open `app/index.html`, or from the repository root:
 
-## Layout
+```sh
+node serve.ts
+```
 
-- `app/` — the static web app (`index.html`, `style.css`, `app.js`, `data/trophies.json`); fully self-contained and offline.
-- `screenshots/` — the four hand-in screenshots (checklist, guide detail, roadmap, spoiler protection).
-- `main.ts` — the hand-in program: validates `trophies.json` (exactly 55 trophies, non-blank guides, sources present), then copies `app/` and `screenshots/` to the output directory and writes `dossier.json`. Two runs produce byte-identical output.
-- `serve.ts` — a tiny local server for trying the app.
-- `vendor/makefun-frontend.ts` — the kit's dossier builder, unmodified.
+then open http://localhost:8080.
 
-Fan-made tool; not affiliated with Rockstar Games. No Rockstar artwork, logos or screenshots are used — the look is original CSS.
+## Hand it in
+
+```sh
+mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+```
+
+`main.ts` (Node 22, standard library only) copies `app/` and `screenshots/` to the output directory and writes `dossier.json` with the vendored make.fun library. The build is deterministic: two runs write the same bytes.
+
+## License
+
+MIT — see `LICENSE`.
+
