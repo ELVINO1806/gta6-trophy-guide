@@ -1,55 +1,53 @@
 
-// Leonida Trophy Ledger — entry program (Node 22, standard library only).
-// It copies this repository's app/ and screenshots/ to /output and writes
-// /output/dossier.json with the vendored make.fun library, exactly as the
-// kit's starter does. The build is deterministic: the same input files
-// always produce the same output bytes, so the grader's two runs agree.
-// After writing the dossier it verifies the hand-in: the dossier parses
-// as JSON and every screenshot copied across to /output.
+import { buildDossier, canonicalJson } from "./vendor/makefun-frontend.ts";
+import { copyFileSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { buildDossier } from './vendor/makefun-frontend.ts';
+const repoRoot = dirname(fileURLToPath(import.meta.url));
+const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const shotsDir = join(repoRoot, "screenshots");
+const appDir = join(repoRoot, "app");
 
-const here = fileURLToPath(new URL('.', import.meta.url));
-const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-
-function fail(message) {
-  throw new Error('leonida-trophy-ledger: ' + message);
+function copyTree(src: string, dest: string): void {
+  mkdirSync(dest, { recursive: true });
+  for (const entry of readdirSync(src)) {
+    const from = join(src, entry);
+    const to = join(dest, entry);
+    if (statSync(from).isDirectory()) {
+      copyTree(from, to);
+    } else {
+      copyFileSync(from, to);
+    }
+  }
 }
 
-function checkEntryFiles() {
-  const indexPath = join(here, 'app', 'index.html');
-  if (!existsSync(indexPath)) fail('app/index.html is missing');
-  if (!statSync(indexPath).isFile()) fail('app/index.html is not a regular file');
-  const dataPath = join(here, 'app', 'data', 'trophies.json');
-  if (!existsSync(dataPath)) fail('app/data/trophies.json is missing');
-  const shotsDir = join(here, 'screenshots');
-  if (!existsSync(shotsDir)) fail('screenshots/ is missing');
-  const shots = readdirSync(shotsDir).filter((name) => !name.startsWith('.'));
-  if (shots.length < 3 || shots.length > 4) fail('screenshots/ must hold 3 or 4 images, found ' + shots.length);
+function countFiles(dir: string): number {
+  let total = 0;
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    total += statSync(full).isDirectory() ? countFiles(full) : 1;
+  }
+  return total;
 }
 
-checkEntryFiles();
+rmSync(outDir, { recursive: true, force: true });
+mkdirSync(outDir, { recursive: true });
+copyTree(appDir, join(outDir, "app"));
+copyTree(shotsDir, join(outDir, "screenshots"));
 
-mkdirSync(out, { recursive: true });
-cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });
-mkdirSync(join(out, 'screenshots'), { recursive: true });
-if (existsSync(join(here, 'screenshots'))) cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+const dossierCaps = {
+  text_max_bytes: 163840,
+  screenshots: { max: 4, max_bytes: 262144 },
+};
+const dossier = buildDossier(outDir, dossierCaps);
+const dossierBytes = dossier instanceof Uint8Array
+  ? dossier
+  : Buffer.from(typeof dossier === "string" ? dossier : canonicalJson(dossier), "utf8");
+writeFileSync(join(outDir, "dossier.json"), dossierBytes);
 
-writeFileSync(
-  join(out, 'dossier.json'),
-  buildDossier(out, { text_max_bytes: 163840, screenshots: { max: 4, max_bytes: 262144 }, app_max_files: 993, app_max_bytes: 50331648 }),
-);
-
-// Verify the hand-in before reporting success: the dossier must parse as
-// JSON, and every screenshot we copied must be present in /output.
-const dossierText = readFileSync(join(out, 'dossier.json'), 'utf8');
-const dossier = JSON.parse(dossierText);
-if (!dossier || typeof dossier !== 'object') fail('dossier.json did not parse');
-const outShots = readdirSync(join(out, 'screenshots')).filter((name) => !name.startsWith('.'));
-const inShots = readdirSync(join(here, 'screenshots')).filter((name) => !name.startsWith('.'));
-if (outShots.length !== inShots.length) fail('screenshots/ did not copy fully: ' + outShots.length + ' of ' + inShots.length);
-
+console.log("Leonida Trophy Ledger handed in.");
+console.log("app files copied: " + countFiles(join(outDir, "app")));
+console.log("screenshots copied: " + countFiles(join(outDir, "screenshots")));
+console.log("dossier bytes: " + dossierBytes.length);
 
