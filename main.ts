@@ -4,6 +4,8 @@
 // /output/dossier.json with the vendored make.fun library, exactly as the
 // kit's starter does. The build is deterministic: the same input files
 // always produce the same output bytes, so the grader's two runs agree.
+// After writing the dossier it verifies the hand-in: the dossier parses
+// as JSON and every screenshot copied across to /output.
 
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
