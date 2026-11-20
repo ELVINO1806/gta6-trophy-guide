@@ -4,72 +4,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Trophy Ledger — GTA 6 Trophy Guide &amp; Tracker</title>
+<title>Leonida Trophy Ledger — GTA 6 Trophy Guide</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="hero">
-<h1>Leonida Trophy Ledger</h1>
-<p class="tagline">Every one of the 55 GTA 6 PlayStation 5 trophies: a tracker, a roadmap, and a cited guide for each one. Works fully offline.</p>
-<div class="progress-wrap">
-<div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width: 0%"></div></div>
-<p id="progress-text" class="progress-text">0 of 55 earned · 0%</p>
-</div>
-<p id="platinum-line" class="platinum-line">Platinum: Vice Got a Price! — earn the other 54 trophies.</p>
+  <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies</p>
+  <h1>Leonida Trophy Ledger</h1>
+  <p class="tagline">Every trophy, every guide, every source. One checklist from first mission to platinum.</p>
+  <div class="progress-wrap" aria-label="Trophy progress">
+    <div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
+    <p id="progressText" class="progress-text">0 / 55 earned &middot; 0%</p>
+  </div>
+  <p class="grade-counts" id="gradeCounts"></p>
 </header>
+
+<nav class="tabs" aria-label="Views">
+  <button class="tab active" data-view="tracker" type="button">Tracker</button>
+  <button class="tab" data-view="roadmap" type="button">Platinum Roadmap</button>
+  <button class="tab" data-view="missables" type="button">Missables</button>
+</nav>
+
 <main>
-<section class="controls" aria-label="Tracker controls">
-<input id="search" type="search" placeholder="Search trophies by name or guide…" autocomplete="off">
-<select id="grade-filter" aria-label="Filter by grade">
-<option value="all">All grades</option>
-<option value="platinum">Platinum</option>
-<option value="gold">Gold</option>
-<option value="silver">Silver</option>
-<option value="bronze">Bronze</option>
-</select>
-<select id="status-filter" aria-label="Filter by status">
-<option value="all">All trophies</option>
-<option value="earned">Earned</option>
-<option value="remaining">Still to earn</option>
-<option value="missable">Missable only</option>
-</select>
-<label class="toggle"><input id="spoiler-toggle" type="checkbox"> Hide story spoilers</label>
-<span class="spacer"></span>
-<button id="export-btn" type="button">Export progress</button>
-<button id="import-btn" type="button">Import progress</button>
-<input id="import-file" type="file" accept="application/json" hidden>
-<button id="reset-btn" type="button">Reset</button>
-</section>
-<section class="roadmap" aria-label="Platinum roadmap">
-<h2>Roadmap to the Platinum</h2>
-<p class="section-note">Seven stages, in the order that wastes the least replay time. Stage 1 comes first for a reason: it holds the guide's only missable trophy.</p>
-<ol class="stages">
-<li><strong>Stage 1 — Chapter 1 first.</strong> Play Gone Fishing and finish Chapter 1. Meditate at all 18 spots before the chapter closes, or Positive Mental Attitude is gone for this playthrough.</li>
-<li><strong>Stage 2 — Story missions.</strong> Finish Chapters 2, 3, and 4, the named missions (Breakfast Run, The Cartel Heist, Child's Play, Headliners, VCIA Takedown, Operation Savage Glory), and the final mission.</li>
-<li><strong>Stage 3 — Character strands.</strong> Close out Andy, Kenton, Billy, Randy, and Tyrone, then finish 8 stranger strands across Leonida.</li>
-<li><strong>Stage 4 — Activities.</strong> Gold all 42 Shooting Range challenges, win Top Fun drone races at all 14 locations, win 20 different races, beat Cal at fishing, finish an arcade game, and bowl a full game.</li>
-<li><strong>Stage 5 — Collectibles and exploration.</strong> Visit all 52 areas, discover 100 vehicles, complete 3 card sets, WAiNK It at 100 locations, buy all 8 garages, and register 10 vehicles with Scooter Bros.</li>
-<li><strong>Stage 6 — Combat and wanted.</strong> Five downs in one Combat Focus, a Rhino encounter, a clean jewelry store robbery, a 4-star escape with your partner, 3 shops in a row, 5 bank vaults, an armored truck, one illegal operation per gang, and a melee drive-by.</li>
-<li><strong>Stage 7 — Money and cleanup.</strong> Launder $250,000 of marked bills, spend $100,000 in shops, land 250 stunts, finish 50 challenges, make 500 choices, and reach 100% completion. The platinum pops with the last one.</li>
-</ol>
-</section>
-<section class="missables" aria-label="Missable trophies">
-<h2>Missables — read this first</h2>
-<div class="missable-card">
-<p><strong>Positive Mental Attitude</strong> — meditate at every spot across Leonida (18 spots).</p>
-<p>This is the only missable trophy in the set. All 18 meditation spots must be visited during Chapter 1. Once the story moves past Chapter 1, missed spots cannot be revisited on that playthrough, so clear them before finishing the chapter.</p>
-</div>
-</section>
-<section aria-label="Trophy list">
-<h2>All 55 trophies</h2>
-<p class="section-note">Tick a trophy when you earn it. Counted trophies have steppers: tap + or − to track progress toward the target. Progress saves in this browser automatically.</p>
-<div id="trophy-list" class="trophy-list"></div>
-</section>
+  <section id="view-tracker" class="view">
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search trophies by name or guide&hellip;" aria-label="Search trophies">
+      <label class="spoiler-toggle"><input id="spoilerToggle" type="checkbox" checked> Hide spoilers (mask hidden trophies)</label>
+      <button id="exportBtn" type="button">Export progress</button>
+      <label class="import-label">Import progress <input id="importFile" type="file" accept="application/json" hidden></label>
+      <button id="resetBtn" type="button">Reset</button>
+    </div>
+    <div id="filters" class="filters" role="group" aria-label="Filters"></div>
+    <p id="resultCount" class="result-count"></p>
+    <div id="trophyList" class="trophy-list"></div>
+  </section>
+
+  <section id="view-roadmap" class="view" hidden>
+    <h2>Road to the Platinum — 7 stages</h2>
+    <p class="section-intro">Follow the stages in order. Story first, then side content, then the long grinds last, when free roam and fast travel are fully open.</p>
+    <div id="roadmapList" class="roadmap-list"></div>
+  </section>
+
+  <section id="view-missables" class="view" hidden>
+    <h2>Missables — read this first</h2>
+    <div class="missable-banner">
+      <strong>Only 1 trophy in GTA 6 can be missed.</strong>
+      Everything else can be earned in free roam after the story ends. Do the missable one in Chapter 1 and the platinum is safe.
+    </div>
+    <div id="missableList" class="trophy-list"></div>
+    <h3>How not to miss it</h3>
+    <ol class="missable-tips">
+      <li>Do not finish Chapter 1 until the counter reads 18 / 18.</li>
+      <li>Meditation spots glow on the map when you walk near one.</li>
+      <li>Work the map region by region so no spot is left behind.</li>
+      <li>The tracker above counts your spots — the stepper saves to this browser.</li>
+    </ol>
+  </section>
+
+  <section id="guidePanel" class="guide-panel" hidden aria-label="Trophy guide detail"></section>
 </main>
+
 <footer>
-<p>Data: the official 55-trophy list as published 18 November 2026. Guides are written for this ledger and cite Exophase, PSNProfiles, PowerPyx, GTABase, Beebom, TechWiser, EGamers, Boosting Factory, and HowToVideoGame. No network is needed to use this page.</p>
+  <p>Leonida Trophy Ledger — an offline guide. Progress is stored only in this browser (localStorage). Trophy names and descriptions are the official list. Guides are original writing with sources cited per trophy.</p>
+  <p class="sources-note">Sources: Exophase, PSNProfiles, EGamers, GTABase, PowerPyx, Boosting Factory, HowToVideoGame, Beebom, TechWiser.</p>
 </footer>
-<script src="app.js"></script>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>
 

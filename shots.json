@@ -1,35 +1,11 @@
 
 [
-  {
-    "file": "1-checklist.jpg",
-    "path": "/",
-    "viewport": {
-      "width": 1280,
-      "height": 800
-    }
-  },
-  {
-    "file": "2-guide.jpg",
-    "path": "/#trophy-28",
-    "viewport": {
-      "width": 1280,
-      "height": 800
-    }
-  },
-  {
-    "file": "3-roadmap.jpg",
-    "path": "/#roadmap",
-    "viewport": {
-      "width": 1280,
-      "height": 800
-    }
-  },
-  {
-    "file": "4-spoiler.jpg",
-    "path": "/#spoiler",
-    "viewport": {
-      "width": 1280,
-      "height": 800
-    }
-  }
+
+  { "file": "1-checklist.jpg", "path": "/?view=tracker&spoiler=off", "viewport": { "width": 1280, "height": 800 } },
+
+  { "file": "2-guide.jpg", "path": "/?view=tracker&spoiler=off&id=28", "viewport": { "width": 1280, "height": 800 } },
+
+  { "file": "3-roadmap.jpg", "path": "/?view=roadmap", "viewport": { "width": 1280, "height": 800 } },
+
+  { "file": "4-spoiler.jpg", "path": "/?view=missables&spoiler=on", "viewport": { "width": 1280, "height": 800 } }
 ]
